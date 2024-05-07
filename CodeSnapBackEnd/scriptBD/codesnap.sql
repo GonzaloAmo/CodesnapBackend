@@ -7,6 +7,13 @@
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
+-- Borramos la base de datos si existe
+DROP DATABASE IF EXISTS `codesnap`;
+-- Creamos la base de datos
+CREATE DATABASE `codesnap`;
+-- Seleccionamos la base de datos
+USE `codesnap`;
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -132,6 +139,7 @@ INSERT INTO `scripts` (`id`, `idUser`, `code`) VALUES
 
 CREATE TABLE `users` (
   `id` int(255) NOT NULL,
+  `token` varchar(200) NOT NULL,
   `username` varchar(65) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
@@ -152,8 +160,8 @@ CREATE TABLE `users` (
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `fechanacimiento`, `sexo`, `telefono`, `fecha_ingreso`, `nombrecompleto`, `descripcion`, `ubicacion`, `foto`, `numfotos`, `numcodigo`, `foroscreados`) VALUES
-(2, 'usuario2', 'usuario2@example.com', '1234', '2000-01-01', 1, 628742007, '2024-04-24', 'Usuario Dos', 'Descripci del usuario dos', 'Ciudad Dos', NULL, 0, 0, 0);
+INSERT INTO `users` (`id`,`token`,`username`, `email`, `password`, `fechanacimiento`, `sexo`, `telefono`, `fecha_ingreso`, `nombrecompleto`, `descripcion`, `ubicacion`, `foto`, `numfotos`, `numcodigo`, `foroscreados`) VALUES
+(2,'', 'usuario2', 'usuario2@example.com', '1234', '2000-01-01', 1, 628742007, '2024-04-24', 'Usuario Dos', 'Descripci del usuario dos', 'Ciudad Dos', NULL, 0, 0, 0);
 
 --
 -- Índices para tablas volcadas

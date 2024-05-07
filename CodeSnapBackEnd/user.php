@@ -1,7 +1,15 @@
 <?php
+
+
 //Importamos la clase Response y la clase User
 require_once 'classes/Response.inc.php';
 require_once 'classes/User.inc.php';
+require_once 'classes/Authentication.inc.php';
+
+//Creamos un objeto de la clase Authentication para saber si el usuario
+//que usa el endpoint tiene los permisos para usar la API
+$auth = new Authentication();
+$auth->verify();//invocamos el método verify
 
 //Creamos el objeto de la clase User para manejar el endpoint
 $user = new User();
