@@ -1,5 +1,10 @@
 <?php
-
+// Permitir solicitudes desde cualquier origen
+header("Access-Control-Allow-Origin: *");
+// Permitir métodos GET, POST, PUT, DELETE y opciones preflights
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+// Permitir ciertos encabezados en las solicitudes
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, api-key");
 
 //Importamos la clase Response y la clase User
 require_once 'classes/Response.inc.php';
@@ -8,8 +13,10 @@ require_once 'classes/Authentication.inc.php';
 
 //Creamos un objeto de la clase Authentication para saber si el usuario
 //que usa el endpoint tiene los permisos para usar la API
-$auth = new Authentication();
-$auth->verify();//invocamos el método verify
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+	
+}
+
 
 //Creamos el objeto de la clase User para manejar el endpoint
 $user = new User();
@@ -28,6 +35,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
 	 *  En caso de recibir un parámetro distinto dará error. 
 	 */
 	case 'GET':
+		$auth = new Authentication();
+	$auth->verify();
 		//Recogemos los parámetros de la petición get
 		$params = $_GET;
 
@@ -97,6 +106,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
 	 *  }
 	 */	
 	case 'PUT':
+		$auth = new Authentication();
+	$auth->verify();
 		//Recogemos los  parámetros pasados por la petición post
 		//decodificamos el json para convertirlo en array asociativo
 		//php://input equivale a $_POST para leer datos raw del cuerpo de la petición
@@ -129,6 +140,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 	 *  http://localhost/DWES/API/api/user?id=1092
 	 */	
 	case 'DELETE':
+		
 		//Si no existe el parámetro id o está vacío
 		if(!isset($_GET['id']) || empty($_GET['id'])){
 			//creamos el array de error y devolvemos la respuesta	
@@ -149,15 +161,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		//devolvemos la respuesta
 		Response::result(200, $response);
 		break;
-	//Si recibimos cualquier otro método diferente a get, post, put o delete...	
-	default:
-		//creamos el array de error
-		$response = array(
-			'result' => 'error'
-		);
-		//devolvemos la respuesta
-		Response::result(404, $response);
 
-		break;
 }
 ?>

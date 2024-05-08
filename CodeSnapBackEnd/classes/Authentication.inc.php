@@ -77,6 +77,11 @@ class Authentication extends AuthModel
 	 */
 	public function verify()
     {
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			// No hace nada en caso de solicitud POST, permitiendo el acceso sin token
+			return;
+		}
+		
 		//si no existe la cabecera de api-key...
         if(!isset($_SERVER['HTTP_API_KEY'])){
 			//genera error y devuelve al cliente

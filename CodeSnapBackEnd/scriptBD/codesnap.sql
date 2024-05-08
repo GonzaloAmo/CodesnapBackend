@@ -140,8 +140,8 @@ INSERT INTO `scripts` (`id`, `idUser`, `code`) VALUES
 CREATE TABLE `users` (
   `id` int(255) NOT NULL,
   `token` varchar(200) NOT NULL,
-  `username` varchar(65) NOT NULL,
-  `email` varchar(255) NOT NULL,
+  `username` varchar(65) NOT NULL UNIQUE,
+  `email` varchar(255) NOT NULL UNIQUE,
   `password` varchar(255) NOT NULL,
   `fechanacimiento` date DEFAULT NULL,
   `sexo` int(255) DEFAULT NULL,

@@ -9,7 +9,7 @@ class Database
 	 * Método constructor: crea la conexión con BD
 	 */
 	public function __construct(){
-		$this->connection = new mysqli('127.0.0.1', 'root', '', 'codesnap_users');
+		$this->connection = new mysqli('127.0.0.1', 'root', '', 'codesnap');
 
 		if($this->connection->connect_errno){
 			echo 'Error de conexión a la base de datos';
@@ -71,6 +71,15 @@ class Database
 		}
 
 		return $resultArray; //devolvemos la consulta
+	}
+	public function checkingUserExiste($table, $username,$email)
+	{
+		// Consultar si el usuario ya existe en la base de datos
+		$query = "SELECT * FROM $table WHERE username = '$username' OR email = '$email'";
+		$result = $this->connection->query($query);
+	
+		// Si se encuentra algún resultado, el usuario ya existe
+		return $result->num_rows > 0;
 	}
 
 	/**
