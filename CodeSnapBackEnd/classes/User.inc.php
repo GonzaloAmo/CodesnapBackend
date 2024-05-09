@@ -194,7 +194,6 @@ class User extends Database
 			}
 		}
 		//si son parámetros válidos
-		if($this->validate($params)){
 			//realizamos la actualización en BD pasando los parámetros y el id de la tupla
 			$affected_rows = parent::updateDB($this->table, $id, $params);
 			//si no se actualizó, generamos la respuesta
@@ -207,7 +206,7 @@ class User extends Database
 				Response::result(200, $response);
 				exit;
 			}
-		}
+
 	}
 
 	/**
