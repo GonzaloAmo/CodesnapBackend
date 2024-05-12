@@ -1,22 +1,20 @@
 <?php
+// Permitir solicitudes desde cualquier origen
+header("Access-Control-Allow-Origin: *");
+// Permitir métodos GET, POST, PUT, DELETE y opciones preflights
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+// Permitir ciertos encabezados en las solicitudes
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, api-key");
+
 require_once 'classes/Response.inc.php';
 require_once 'classes/Scripts.inc.php';
+require_once 'classes/Authentication.inc.php';
 
 //Creamos el objeto de la clase User para manejar el endpoint
 $script = new Script();
 
 switch ($_SERVER['REQUEST_METHOD']) {
 	//Método get
-	/**
-	 * Probar:
-	 *  http://localhost/DWES/API/api/user
-	 *  http://localhost/DWES/API/api/user?id=1
-	 *  http://localhost/DWES/API/api/user?nombre=Nacho
-	 *  http://localhost/DWES/API/api/user?disponible=1
-	 *  http://localhost/DWES/API/api/user?page=3
-	 *  Cualquier combinación válida de los anteriores.
-	 *  En caso de recibir un parámetro distinto dará error.
-	 */
 	case 'GET':
 		$params = $_GET;
 		$scripts = $script->get($params);
@@ -29,16 +27,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
 		break;
 	//Método post
-	/**
-	 * Probar:
-	 *  http://localhost/DWES/API/api/user
-	 *  body -> raw (radio)
-	 *  {
-	 *     "nombre": "prueba",
-	 *     "disponible": "1"
-	 *  }
-	 */
 	case 'POST':
+		$auth = new Authentication();
+		$auth->verify();
 		$params = json_decode(file_get_contents('php://input'), true);
 		if(!isset($params)){
 			$response = array(
@@ -57,15 +48,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
 		break;
 	//Método put
-	/**
-	 * Probar:
-	 *  http://localhost/DWES/API/api/user?id=1093
-	 *  body -> raw (radio)
-	 *  {
-	 *     "nombre": "nueva prueba",
-	 *     "disponible": "1"
-	 *  }
-	 */
 	case 'PUT':
 		$params = json_decode(file_get_contents('php://input'), true);
 		//Si no recibimos parámetros, no recibimos el parámetro id o id está vacío
@@ -85,10 +67,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
 		break;
 	//Método delete
-	/**
-	 * Probar:
-	 *  http://localhost/DWES/API/api/user?id=1092
-	 */
 	case 'DELETE':
 		if(!isset($_GET['id']) || empty($_GET['id'])){
 			$response = array(
@@ -104,12 +82,5 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			'result' => 'ok'
 		);
 		Response::result(200, $response);
-		break;
-	default:
-		$response = array(
-			'result' => 'error'
-		);
-		Response::result(404, $response);
-
 		break;
 }
