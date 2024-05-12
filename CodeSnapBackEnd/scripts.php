@@ -16,6 +16,8 @@ $script = new Script();
 switch ($_SERVER['REQUEST_METHOD']) {
 	//Método get
 	case 'GET':
+		$auth = new Authentication();
+		$auth->verify();
 		$params = $_GET;
 		$scripts = $script->get($params);
 		$response = array(
