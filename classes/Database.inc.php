@@ -3,7 +3,6 @@
 class Database
 {
 	private $connection; //conexión a BD
-	private $results_page = 5; //nº de resultados por página
 
 	/**
 	 * Método constructor: crea la conexión con BD
@@ -28,15 +27,8 @@ class Database
 	 */
 	public function getDB($table, $extra = null)
 	{
-		$page = 0; //página por defecto 0
 		$query = "SELECT * FROM $table"; //consulta por defecto
 
-		//si existe el parámetro page en la petición get
-		if(isset($extra['page'])){
-			//lo recogemos para hacer la consulta select
-			$page = $extra['page'];
-			unset($extra['page']);
-		}
 
 		//si recibimos parámetros en la petición get...
 		if($extra != null){
@@ -51,16 +43,6 @@ class Database
 			}
 		}
 
-		//si la página es mayor que 0, esto es, la recibimos por parámetro...
-		if($page > 0){
-			//limitamos la consulta a la paginación
-			$since = (($page-1) * $this->results_page);
-			$query .= " LIMIT $since, $this->results_page";
-		}
-		//si no, devolvemos los primetos 5 resultados indicados en el atributo results_page
-		else{
-			$query .= " LIMIT 0, $this->results_page";
-		}
 
 		$results = $this->connection->query($query); //realizamos consulta
 		$resultArray = array(); //creamos un array que recoja la consulta

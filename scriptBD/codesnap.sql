@@ -7,6 +7,13 @@
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
+-- Borramos la base de datos si existe
+DROP DATABASE IF EXISTS `codesnap`;
+-- Creamos la base de datos
+CREATE DATABASE `codesnap`;
+-- Seleccionamos la base de datos
+USE `codesnap`;
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
