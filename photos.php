@@ -9,12 +9,15 @@ header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 
 require_once 'classes/Response.inc.php';
 require_once 'classes/Photos.inc.php';
+require_once 'classes/Authentication.inc.php';
 
 //Creamos el objeto de la clase User para manejar el endpoint
 $photo = new Photo();
 
 switch ($_SERVER['REQUEST_METHOD']) {
 	case 'GET':
+		$auth = new Authentication();
+		$auth->verify();
 		$params = $_GET;
 		$photos = $photo->get($params);
 		$response = array(
@@ -80,12 +83,5 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			'result' => 'ok'
 		);
 		Response::result(200, $response);
-		break;
-	default:
-		$response = array(
-			'result' => 'error'
-		);
-		Response::result(404, $response);
-
 		break;
 }
