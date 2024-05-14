@@ -1,4 +1,5 @@
 <?php
+
 //Importamos la clase Response y la clase Database
 require_once 'Response.inc.php';
 require_once 'Database.inc.php';
@@ -21,6 +22,7 @@ class User extends Database
 		'descripcion',
 		'ubicacion',
 		'foto',
+		'token'
 	);
 	
 	//indicamos los parámetros válidos para las peticiones post y put mediante un array
@@ -122,6 +124,7 @@ class User extends Database
 	 */
 	public function insert($params)
 	{
+		
 		//recorremos los parámetros
 		foreach ($params as $key => $param) {
 			//si no están permitidos
@@ -141,6 +144,21 @@ class User extends Database
 		}
 		//si son parámtros válidos
 		if($this->validate($params)){
+			// Si existen los campos de contraseña, email y nombre de usuario
+			if (isset($params['password']) && isset($params['email']) && isset($params['username'])) {
+				$existingUser = parent::checkingUserExiste($this->table,$params['username'], $params['email']);
+				if($existingUser==1){
+						$response = array(
+							'result' => 'error',
+							'details' => 'Usuario existente'
+						);
+			
+						Response::result(401, $response);
+						exit;
+				}
+				// Hasheamos la contraseña a hash64
+				$params['password'] = hash('sha256', $params['password']);
+			}
 			//insertamos en BD y obtenemos el id de la tupla insertada
 			return parent::insertDB($this->table, $params);
 		}
@@ -176,7 +194,6 @@ class User extends Database
 			}
 		}
 		//si son parámetros válidos
-		if($this->validate($params)){
 			//realizamos la actualización en BD pasando los parámetros y el id de la tupla
 			$affected_rows = parent::updateDB($this->table, $id, $params);
 			//si no se actualizó, generamos la respuesta
@@ -189,7 +206,7 @@ class User extends Database
 				Response::result(200, $response);
 				exit;
 			}
-		}
+
 	}
 
 	/**
