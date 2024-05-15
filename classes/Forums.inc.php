@@ -10,7 +10,8 @@ class Forum extends Database
 		'idUser',
 		'title',
         'question',
-        'creation_date',
+		'tipo',
+        'fecha_creacion',
         'response_number',
 
 	);
@@ -20,7 +21,9 @@ class Forum extends Database
 		'idUser',
 		'title',
         'question',
+		'tipo',
         'creation_date',
+		'fecha_creacion',
         'response_number',
 	);
 
@@ -49,7 +52,17 @@ class Forum extends Database
 			Response::result(400, $response);
 			exit;
 		}
-        if(!isset($data['question']) || empty($data['question'])){
+        if(!isset($data['tipo']) || empty($data['tipo'])){
+			//... genera la respuesta de error
+			$response = array(
+				'result' => 'error',
+				'details' => 'El campo tipo es obligatorio'
+			);
+
+			Response::result(400, $response);
+			exit;
+		}
+		if(!isset($data['question']) || empty($data['question'])){
 			//... genera la respuesta de error
 			$response = array(
 				'result' => 'error',
@@ -59,16 +72,6 @@ class Forum extends Database
 			Response::result(400, $response);
 			exit;
 		}
-        // ACTIVAR ESTO CUANDO SE AÑADA EL RECUPERAR LA FECHA EN EL MOMENTO QUE SE CREA
-        // if(!isset($data['creation_date']) || empty($data['creation_date'])){
-		// 	//... genera la respuesta de error
-		// 	$response = array(
-		// 		'result' => 'error',
-		// 		'details' => 'El campo creation_date es obligatorio'
-		// 	);
-
-		// 	Response::result(400, $response);
-		// 	exit;
 		// }
 		return true;
 	}

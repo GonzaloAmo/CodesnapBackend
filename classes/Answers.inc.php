@@ -56,17 +56,6 @@ class Answer extends Database
 			Response::result(400, $response);
 			exit;
 		}
-        // ACTIVAR ESTO CUANDO SE AÑADA EL RECUPERAR LA FECHA EN EL MOMENTO QUE SE CREA
-        // if(!isset($data['response_Date']) || empty($data['response_Date'])){
-		// 	//... genera la respuesta de error
-		// 	$response = array(
-		// 		'result' => 'error',
-		// 		'details' => 'El campo response_Date es obligatorio'
-		// 	);
-
-		// 	Response::result(400, $response);
-		// 	exit;
-		// }
 		return true;
 	}
 

@@ -51,6 +51,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		break;
 	//Método put
 	case 'PUT':
+
 		$params = json_decode(file_get_contents('php://input'), true);
 		//Si no recibimos parámetros, no recibimos el parámetro id o id está vacío
 		if(!isset($params) || !isset($_GET['id']) || empty($_GET['id'])){
@@ -70,6 +71,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		break;
 	//Método delete
 	case 'DELETE':
+		$auth = new Authentication();
+		$auth->verify();
 		if(!isset($_GET['id']) || empty($_GET['id'])){
 			$response = array(
 				'result' => 'error',
