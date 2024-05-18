@@ -91,6 +91,26 @@ CREATE TABLE `photos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
+--
+-- Disparadores `photos`
+--
+DELIMITER $$
+CREATE TRIGGER `actualizar_photos_number_insert` AFTER INSERT ON `photos` FOR EACH ROW BEGIN
+    UPDATE users
+    SET numfotos = numfotos + 1
+    WHERE id = NEW.idUser;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `actualizar_photos_number_delete` AFTER DELETE ON `photos` FOR EACH ROW BEGIN
+    UPDATE users
+    SET numfotos = numfotos - 1
+    WHERE id = OLD.idUser;
+END
+$$
+DELIMITER ;
+-- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `responses`
@@ -106,7 +126,7 @@ CREATE TABLE `responses` (
 
 -- --------------------------------------------------------
 --
--- Disparadores `forums`
+-- Disparadores `responses`
 --
 DELIMITER $$
 CREATE TRIGGER `actualizar_response_number_insert` AFTER INSERT ON `responses` FOR EACH ROW BEGIN

@@ -8,7 +8,7 @@ class Photo extends Database
 	private $allowedConditions_get = array(
 		'id',
 		'idUser',
-		'route',
+		'foto',
         'description',
         'numLikes',
 	);
@@ -16,7 +16,7 @@ class Photo extends Database
 	private $allowedConditions_insert_update = array(
 		'id',
 		'idUser',
-		'route',
+		'foto',
         'description',
         'numLikes',
 	);
