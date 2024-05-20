@@ -8,7 +8,7 @@ header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 
 
 require_once 'classes/Response.inc.php';
-require_once 'classes/Answers.inc.php';
+require_once 'classes/Answer.inc.php';
 require_once 'classes/Authentication.inc.php';
 
 //Creamos el objeto de la clase User para manejar el endpoint
@@ -69,10 +69,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
 		break;
 	//Método delete
-	/**
-	 * Probar:
-	 *  http://localhost/DWES/API/api/user?id=1092
-	 */
 	case 'DELETE':
 		$auth = new Authentication();
 		$auth->verify();

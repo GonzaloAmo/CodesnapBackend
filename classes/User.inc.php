@@ -11,18 +11,18 @@ class User extends Database
 	//indicamos los parámetros válidos para las peticiones get mediante un array
 	private $allowedConditions_get = array(
 		'id',
+		'token',
 		'username',
 		'email',
 		'password',
-		'fechanacimiento',
-		'sexo',
-		'telefono',
-		'fecha_ingreso',
-		'nombrecompleto',
-		'descripcion',
-		'ubicacion',
-		'foto',
-		'token'
+		'birthdate',
+		'gender',
+		'phoneNumber',
+		'dateCreated',
+		'fullname',
+		'description',
+		'location',
+		'profilePicture'
 	);
 	
 	//indicamos los parámetros válidos para las peticiones post y put mediante un array
@@ -31,14 +31,15 @@ class User extends Database
 		'username',
 		'email',
 		'password',
-		'fechanacimiento',
-		'sexo',
-		'telefono',
-		'fecha_ingreso',
-		'nombrecompleto',
-		'descripcion',
-		'ubicacion',
-		'foto',
+		'birthdate',
+		'gender',
+		'phoneNumber',
+		'dateCreated',
+		'fullname',
+		'description',
+		'location',
+		'profilePicture',
+		'role'
 	);
 
 	/**
@@ -163,8 +164,6 @@ class User extends Database
 			return parent::insertDB($this->table, $params);
 		}
 	}
-//probar con: {"id":"2","username":"usuario2","email":"usuario2@example.com","password":"1234","fechanacimiento":"2000-01-01","sexo":"1","telefono":"628742007","fecha_ingreso":"2024-04-24","nombrecompleto":"Usuario Dos","descripcion":"Descripci del usuario dos","ubicacion":"Ciudad Dos"} 	/**
-
 	/**
 	 * Método update: recibe los parámetros de la petición put,
 	 * los recorre para comprobar si son válidos,

@@ -7,28 +7,26 @@ header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, api-key");
 
 require_once 'classes/Response.inc.php';
-require_once 'classes/Scripts.inc.php';
+require_once 'classes/Likes.inc.php';
 require_once 'classes/Authentication.inc.php';
 
 //Creamos el objeto de la clase User para manejar el endpoint
-$script = new Script();
+$like= new Like ();
 
 switch ($_SERVER['REQUEST_METHOD']) {
-	//Método get
 	case 'GET':
 		$auth = new Authentication();
 		$auth->verify();
 		$params = $_GET;
-		$scripts = $script->get($params);
+		$likes = $like->get($params);
 		$response = array(
 			'result' => 'ok',
-			'scripts' => $scripts
+			'likes' => $likes
 		);
 
 		Response::result(200, $response);
 
 		break;
-	//Método post
 	case 'POST':
 		$auth = new Authentication();
 		$auth->verify();
@@ -41,7 +39,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			Response::result(400, $response);
 			exit;
 		}
-		$insert_id = $script->insert($params);
+		$insert_id = $like->insert($params);
 		$response = array(
 			'result' => 'ok',
 			'insert_id' => $insert_id
@@ -49,9 +47,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		Response::result(201, $response);
 
 		break;
-	//Método put
 	case 'PUT':
-
+		$auth = new Authentication();
+		$auth->verify();
 		$params = json_decode(file_get_contents('php://input'), true);
 		//Si no recibimos parámetros, no recibimos el parámetro id o id está vacío
 		if(!isset($params) || !isset($_GET['id']) || empty($_GET['id'])){
@@ -62,7 +60,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			Response::result(400, $response);
 			exit;
 		}
-		$script->update($_GET['id'], $params);
+		$like->update($_GET['id'], $params);
 		$response = array(
 			'result' => 'ok'
 		);
@@ -82,7 +80,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			Response::result(400, $response);
 			exit;
 		}
-		$script->delete($_GET['id']);
+		$like->delete($_GET['id']);
 		$response = array(
 			'result' => 'ok'
 		);

@@ -10,21 +10,19 @@ class Forum extends Database
 		'idUser',
 		'title',
         'question',
-		'tipo',
-        'fecha_creacion',
-        'response_number',
+		'type',
+        'dateCreated',
+        'numResponses',
 
 	);
 
 	private $allowedConditions_insert_update = array(
-		'id',
 		'idUser',
 		'title',
         'question',
-		'tipo',
-        'creation_date',
-		'fecha_creacion',
-        'response_number',
+		'type',
+        'dateCreated',
+        'numResponses',
 	);
 
 	/**
@@ -52,11 +50,11 @@ class Forum extends Database
 			Response::result(400, $response);
 			exit;
 		}
-        if(!isset($data['tipo']) || empty($data['tipo'])){
+        if(!isset($data['type']) || empty($data['type'])){
 			//... genera la respuesta de error
 			$response = array(
 				'result' => 'error',
-				'details' => 'El campo tipo es obligatorio'
+				'details' => 'El campo type es obligatorio'
 			);
 
 			Response::result(400, $response);

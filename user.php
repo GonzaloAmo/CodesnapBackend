@@ -17,16 +17,6 @@ $user = new User();
 //Comprobamos de qué tipo es la petición al endpoint
 switch ($_SERVER['REQUEST_METHOD']) {
 	//Método get
-	/**
-	 * Probar:
-	 *  http://localhost/DWES/API/api/user
-	 *  http://localhost/DWES/API/api/user?id=1
-	 *  http://localhost/DWES/API/api/user?nombre=Nacho
-	 *  http://localhost/DWES/API/api/user?disponible=1
-	 *  http://localhost/DWES/API/api/user?page=3
-	 *  Cualquier combinación válida de los anteriores. 
-	 *  En caso de recibir un parámetro distinto dará error. 
-	 */
 	case 'GET':
 		$auth = new Authentication();
 	$auth->verify();
@@ -37,26 +27,17 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		//parámetros get y comprobamos:
 		//1º) si recibimos parámetros
 		//2º) si los parámetros están permitidos
-		$usuarios = $user->get($params);
+		$users = $user->get($params);
 		//Creamos la respuesta en caso de realizar una petición correcta
 		$response = array(
 			'result' => 'ok',
-			'usuarios' => $usuarios
+			'users' => $users
 		);
 
 		Response::result(200, $response); //devolvemos la respuesta a la petición correcta
 
 		break;
 	//Método post
-	/**
-	 * Probar:
-	 *  http://localhost/DWES/API/api/user
-	 *  body -> raw (radio)
-	 *  {
-	 *     "nombre": "prueba",
-	 *     "disponible": "1"
-	 *  }
-	 */	
 	case 'POST':
 		//Recogemos los  parámetros pasados por la petición post
 		//decodificamos el json para convertirlo en array asociativo
@@ -89,15 +70,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
 		break;
 	//Método put
-	/**
-	 * Probar:
-	 *  http://localhost/DWES/API/api/user?id=1093
-	 *  body -> raw (radio)
-	 *  {
-	 *     "nombre": "nueva prueba",
-	 *     "disponible": "1"
-	 *  }
-	 */	
 	case 'PUT':
 		$auth = new Authentication();
 	$auth->verify();
@@ -128,12 +100,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		
 		break;
 	//Método delete
-	/**
-	 * Probar:
-	 *  http://localhost/DWES/API/api/user?id=1092
-	 */	
 	case 'DELETE':
-		
+		$auth = new Authentication();
+		$auth->verify();
 		//Si no existe el parámetro id o está vacío
 		if(!isset($_GET['id']) || empty($_GET['id'])){
 			//creamos el array de error y devolvemos la respuesta	

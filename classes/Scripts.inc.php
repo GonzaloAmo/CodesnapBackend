@@ -9,15 +9,14 @@ class Script extends Database
 		'id',
 		'idUser',
 		'code',
-		'titulo',
-		'username'
+		'title',
+		'dateCreated'
 	);
 
 	private $allowedConditions_insert_update = array(
 		'idUser',
 		'code',
-		'titulo',
-		'username'
+		'title'
 	);
 
 	/**

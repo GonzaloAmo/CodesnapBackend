@@ -39,9 +39,9 @@ CREATE TABLE `forums` (
   `idUser` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `question` varchar(255) NOT NULL,
-  `tipo` varchar(30) NOT NULL,
-  `fecha_creacion` DATETIME DEFAULT current_timestamp(),
-  `response_number` INT(255) DEFAULT 0
+  `type` varchar(30) NOT NULL,
+  `dateCreated` DATETIME DEFAULT current_timestamp(),
+  `numAnswers` INT(255) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
@@ -50,7 +50,7 @@ CREATE TABLE `forums` (
 DELIMITER $$
 CREATE TRIGGER `actualizar_foroscreados` AFTER INSERT ON `forums` FOR EACH ROW BEGIN
     UPDATE users
-    SET foroscreados = foroscreados + 1
+    SET numForums = numForums + 1
     WHERE id = NEW.idUser;
 END
 $$
@@ -58,7 +58,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `actualizar_foroscreados_delete` AFTER DELETE ON `forums` FOR EACH ROW BEGIN
     UPDATE users
-    SET foroscreados = foroscreados - 1
+    SET numForums = numForums - 1
     WHERE id = OLD.idUser;
 END
 $$
@@ -85,7 +85,7 @@ CREATE TABLE `likes` (
 CREATE TABLE `photos` (
   `id` int(11) NOT NULL,
   `idUser` int(11) NOT NULL,
-  `foto` longtext NOT NULL,
+  `photo` longtext NOT NULL,
   `description` varchar(255) NOT NULL,
   `numLikes` INT(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -97,7 +97,7 @@ CREATE TABLE `photos` (
 DELIMITER $$
 CREATE TRIGGER `actualizar_photos_number_insert` AFTER INSERT ON `photos` FOR EACH ROW BEGIN
     UPDATE users
-    SET numfotos = numfotos + 1
+    SET numPhotos = numPhotos + 1
     WHERE id = NEW.idUser;
 END
 $$
@@ -105,7 +105,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `actualizar_photos_number_delete` AFTER DELETE ON `photos` FOR EACH ROW BEGIN
     UPDATE users
-    SET numfotos = numfotos - 1
+    SET numPhotos = numPhotos - 1
     WHERE id = OLD.idUser;
 END
 $$
@@ -113,33 +113,33 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `responses`
+-- Estructura de tabla para la tabla `answer`
 --
 
-CREATE TABLE `responses` (
+CREATE TABLE `answers` (
   `id` int(11) NOT NULL,
   `idForum` int(11) NOT NULL,
   `idUser` int(11) NOT NULL,
-  `response` longtext NOT NULL,
-  `response_Date` DATETIME DEFAULT current_timestamp()
+  `answer` longtext NOT NULL,
+  `answerDate` DATETIME DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 --
--- Disparadores `responses`
+-- Disparadores `answers`
 --
 DELIMITER $$
-CREATE TRIGGER `actualizar_response_number_insert` AFTER INSERT ON `responses` FOR EACH ROW BEGIN
+CREATE TRIGGER `actualizar_answer_number_insert` AFTER INSERT ON `answers` FOR EACH ROW BEGIN
     UPDATE forums
-    SET response_number = response_number + 1
+    SET numAnswers = numAnswers + 1
     WHERE id = NEW.idForum;
 END
 $$
 DELIMITER ;
 DELIMITER $$
-CREATE TRIGGER `actualizar_response_number_delete` AFTER DELETE ON `responses` FOR EACH ROW BEGIN
+CREATE TRIGGER `actualizar_answer_number_delete` AFTER DELETE ON `answers` FOR EACH ROW BEGIN
     UPDATE forums
-    SET response_number = response_number - 1
+    SET numAnswers = numAnswers - 1
     WHERE id = OLD.idForum;
 END
 $$
@@ -153,9 +153,8 @@ CREATE TABLE `scripts` (
   `id` int(255) NOT NULL,
   `idUser` varchar(255) NOT NULL,
   `code` longtext NOT NULL,
-  `titulo` varchar(255) NOT NULL,
-  `fecha_creacion` date DEFAULT current_timestamp(),
-  `username` varchar(255) NOT NULL
+  `title` varchar(255) NOT NULL,
+  `dateCreated` date DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
@@ -164,7 +163,7 @@ CREATE TABLE `scripts` (
 DELIMITER $$
 CREATE TRIGGER `update_numCodigo_after_delete` AFTER DELETE ON `scripts` FOR EACH ROW BEGIN
     UPDATE users
-    SET numCodigo = numCodigo - 1
+    SET numCodes = numCodes - 1
     WHERE id = OLD.idUser;
 END
 $$
@@ -172,7 +171,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `update_numCodigo_after_insert` AFTER INSERT ON `scripts` FOR EACH ROW BEGIN
     UPDATE users
-    SET numCodigo = numCodigo + 1
+    SET numCodes = numCodes + 1
     WHERE id = NEW.idUser;
 END
 $$
@@ -185,21 +184,21 @@ DELIMITER ;
 
 CREATE TABLE `users` (
   `id` int(255) NOT NULL,
-  `token` varchar(200) NOT NULL,
+  `token` varchar(200),
   `username` varchar(65) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `fechanacimiento` date DEFAULT NULL,
-  `sexo` int(255) DEFAULT NULL,
-  `telefono` varchar(255) DEFAULT NULL,
-  `fecha_ingreso` date NOT NULL DEFAULT current_timestamp(),
-  `nombrecompleto` varchar(255) DEFAULT NULL,
-  `descripcion` varchar(255) DEFAULT NULL,
-  `ubicacion` varchar(255) DEFAULT NULL,
-  `foto` longtext DEFAULT NULL,
-  `numfotos` int(11) DEFAULT 0,
-  `numcodigo` int(11) DEFAULT 0,
-  `foroscreados` int(11) DEFAULT 0,
+  `birthdate` date DEFAULT '0000-00-00',
+  `gender` int(255) DEFAULT 0,
+  `phoneNumber` varchar(255) DEFAULT NULL,
+  `dateCreated` date NOT NULL DEFAULT current_timestamp(),
+  `fullname` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  `profilePicture` longtext DEFAULT 'usuario.png',
+  `numPhotos` int(11) DEFAULT 0,
+  `numCodes` int(11) DEFAULT 0,
+  `numForums` int(11) DEFAULT 0,
   `role` varchar(50) DEFAULT 'USER'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -226,9 +225,9 @@ ALTER TABLE `photos`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `responses`
+-- Indices de la tabla `answers`
 --
-ALTER TABLE `responses`
+ALTER TABLE `answers`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -268,9 +267,9 @@ ALTER TABLE `photos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
--- AUTO_INCREMENT de la tabla `responses`
+-- AUTO_INCREMENT de la tabla `answers`
 --
-ALTER TABLE `responses`
+ALTER TABLE `answers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --

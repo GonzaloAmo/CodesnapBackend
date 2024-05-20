@@ -4,21 +4,20 @@ require_once 'Database.inc.php';
 
 class Answer extends Database
 {
-	private $table = 'responses';
+	private $table = 'answers';
 	private $allowedConditions_get = array(
 		'id',
 		'idForum',
         'idUser',
-		'response',
-        'response_Date',
+		'answer',
+        'answerDate',
 	);
 
 	private $allowedConditions_insert_update = array(
-		'id',
 		'idForum',
         'idUser',
-		'response',
-        'response_Date',
+		'answer',
+        'answerDate',
 	);
 
 	/**
@@ -46,11 +45,11 @@ class Answer extends Database
 			Response::result(400, $response);
 			exit;
 		}
-        if(!isset($data['response']) || empty($data['response'])){
+        if(!isset($data['answer']) || empty($data['answer'])){
 			//... genera la respuesta de error
 			$response = array(
 				'result' => 'error',
-				'details' => 'El campo response es obligatorio'
+				'details' => 'El campo answer es obligatorio'
 			);
 
 			Response::result(400, $response);
