@@ -195,7 +195,7 @@ CREATE TABLE `users` (
   `fullname` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
-  `profilePicture` longtext DEFAULT 'usuario.png',
+  `profilePicture` longtext DEFAULT '',
   `numPhotos` int(11) DEFAULT 0,
   `numCodes` int(11) DEFAULT 0,
   `numForums` int(11) DEFAULT 0,
