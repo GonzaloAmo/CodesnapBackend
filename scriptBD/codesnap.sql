@@ -34,7 +34,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `users` (
-  `id` int(255) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `token` varchar(200),
   `username` varchar(65) NOT NULL,
   `email` varchar(255) NOT NULL,
@@ -263,11 +263,6 @@ ALTER TABLE `answers`
 ALTER TABLE `scripts`
   MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
---
--- AUTO_INCREMENT de la tabla `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
