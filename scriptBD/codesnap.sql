@@ -199,7 +199,8 @@ CREATE TABLE `users` (
   `numPhotos` int(11) DEFAULT 0,
   `numCodes` int(11) DEFAULT 0,
   `numForums` int(11) DEFAULT 0,
-  `role` varchar(50) DEFAULT 'USER'
+  `role` varchar(50) DEFAULT 'USER',
+  `blocked` TINYINT(1) DEFAULT 0,
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
