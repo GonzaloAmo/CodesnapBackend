@@ -41,7 +41,9 @@ CREATE TABLE `forums` (
   `question` varchar(255) NOT NULL,
   `type` varchar(30) NOT NULL,
   `dateCreated` DATETIME DEFAULT current_timestamp(),
-  `numAnswers` INT(255) DEFAULT 0
+  `numAnswers` INT(255) DEFAULT 0,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_forum_user` FOREIGN KEY (`idUser`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
@@ -73,7 +75,10 @@ DELIMITER ;
 CREATE TABLE `likes` (
   `id` int(11) NOT NULL,
   `idUser` int(11) NOT NULL,
-  `idPhoto` int(11) NOT NULL
+  `idPhoto` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_like_user` FOREIGN KEY (`idUser`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_like_photo` FOREIGN KEY (`idPhoto`) REFERENCES `photos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
@@ -87,10 +92,13 @@ CREATE TABLE `photos` (
   `idUser` int(11) NOT NULL,
   `photo` longtext NOT NULL,
   `description` varchar(255) NOT NULL,
-  `numLikes` INT(11) DEFAULT 0
+  `numLikes` INT(11) DEFAULT 0,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_photo_user` FOREIGN KEY (`idUser`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
+
 --
 -- Disparadores `photos`
 --
@@ -110,10 +118,11 @@ CREATE TRIGGER `actualizar_photos_number_delete` AFTER DELETE ON `photos` FOR EA
 END
 $$
 DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `answer`
+-- Estructura de tabla para la tabla `answers`
 --
 
 CREATE TABLE `answers` (
@@ -121,10 +130,14 @@ CREATE TABLE `answers` (
   `idForum` int(11) NOT NULL,
   `idUser` int(11) NOT NULL,
   `answer` longtext NOT NULL,
-  `answerDate` DATETIME DEFAULT current_timestamp()
+  `answerDate` DATETIME DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_answer_forum` FOREIGN KEY (`idForum`) REFERENCES `forums` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_answer_user` FOREIGN KEY (`idUser`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
+
 --
 -- Disparadores `answers`
 --
@@ -145,6 +158,8 @@ END
 $$
 DELIMITER ;
 
+-- --------------------------------------------------------
+
 --
 -- Estructura de tabla para la tabla `scripts`
 --
@@ -154,8 +169,12 @@ CREATE TABLE `scripts` (
   `idUser` varchar(255) NOT NULL,
   `code` longtext NOT NULL,
   `title` varchar(255) NOT NULL,
-  `dateCreated` date DEFAULT current_timestamp()
+  `dateCreated` date DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_script_user` FOREIGN KEY (`idUser`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
 
 --
 -- Disparadores `scripts`
@@ -178,6 +197,7 @@ $$
 DELIMITER ;
 
 -- --------------------------------------------------------
+
 --
 -- Estructura de tabla para la tabla `users`
 --
@@ -201,49 +221,14 @@ CREATE TABLE `users` (
   `numForums` int(11) DEFAULT 0,
   `role` varchar(50) DEFAULT 'USER',
   `blocked` TINYINT(1) DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Índices para tablas volcadas
 --
-
---
--- Indices de la tabla `forums`
---
-ALTER TABLE `forums`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `likes`
---
-ALTER TABLE `likes`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `photos`
---
-ALTER TABLE `photos`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `answers`
---
-ALTER TABLE `answers`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `scripts`
---
-ALTER TABLE `scripts`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`),
-  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
