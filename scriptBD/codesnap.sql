@@ -94,22 +94,43 @@ CREATE TRIGGER `actualizar_foroscreados_delete` AFTER DELETE ON `forums` FOR EAC
 END
 $$
 DELIMITER ;
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `scripts`
+--
+
+CREATE TABLE `scripts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idUser` int(11) NOT NULL,
+  `code` longtext NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `dateCreated` date DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_script_user` FOREIGN KEY (`idUser`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `likes`
+-- Disparadores `scripts`
 --
-
-CREATE TABLE `likes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `idUser` int(11) NOT NULL,
-  `idPhoto` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  CONSTRAINT `fk_like_user` FOREIGN KEY (`idUser`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_like_photo` FOREIGN KEY (`idPhoto`) REFERENCES `photos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
+DELIMITER $$
+CREATE TRIGGER `update_numCodigo_after_delete` AFTER DELETE ON `scripts` FOR EACH ROW BEGIN
+    UPDATE users
+    SET numCodes = numCodes - 1
+    WHERE id = OLD.idUser;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `update_numCodigo_after_insert` AFTER INSERT ON `scripts` FOR EACH ROW BEGIN
+    UPDATE users
+    SET numCodes = numCodes + 1
+    WHERE id = NEW.idUser;
+END
+$$
+DELIMITER ;
 -- --------------------------------------------------------
 
 --
@@ -151,6 +172,21 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `likes`
+--
+
+CREATE TABLE `likes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idUser` int(11) NOT NULL,
+  `idPhoto` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_like_user` FOREIGN KEY (`idUser`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_like_photo` FOREIGN KEY (`idPhoto`) REFERENCES `photos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `answers`
 --
 
@@ -183,44 +219,6 @@ CREATE TRIGGER `actualizar_answer_number_delete` AFTER DELETE ON `answers` FOR E
     UPDATE forums
     SET numAnswers = numAnswers - 1
     WHERE id = OLD.idForum;
-END
-$$
-DELIMITER ;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `scripts`
---
-
-CREATE TABLE `scripts` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `idUser` varchar(255) NOT NULL,
-  `code` longtext NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `dateCreated` date DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`),
-  CONSTRAINT `fk_script_user` FOREIGN KEY (`idUser`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
--- --------------------------------------------------------
-
---
--- Disparadores `scripts`
---
-DELIMITER $$
-CREATE TRIGGER `update_numCodigo_after_delete` AFTER DELETE ON `scripts` FOR EACH ROW BEGIN
-    UPDATE users
-    SET numCodes = numCodes - 1
-    WHERE id = OLD.idUser;
-END
-$$
-DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `update_numCodigo_after_insert` AFTER INSERT ON `scripts` FOR EACH ROW BEGIN
-    UPDATE users
-    SET numCodes = numCodes + 1
-    WHERE id = NEW.idUser;
 END
 $$
 DELIMITER ;
