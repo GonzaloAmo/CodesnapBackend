@@ -27,6 +27,35 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `codesnap`
 --
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(255) NOT NULL,
+  `token` varchar(200),
+  `username` varchar(65) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `birthdate` date DEFAULT '0000-00-00',
+  `gender` int(255) DEFAULT 0,
+  `phoneNumber` varchar(255) DEFAULT NULL,
+  `dateCreated` date NOT NULL DEFAULT current_timestamp(),
+  `fullname` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  `profilePicture` longtext DEFAULT '',
+  `numPhotos` int(11) DEFAULT 0,
+  `numCodes` int(11) DEFAULT 0,
+  `numForums` int(11) DEFAULT 0,
+  `role` varchar(50) DEFAULT 'USER',
+  `blocked` TINYINT(1) DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -195,36 +224,6 @@ CREATE TRIGGER `update_numCodigo_after_insert` AFTER INSERT ON `scripts` FOR EAC
 END
 $$
 DELIMITER ;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `users`
---
-
-CREATE TABLE `users` (
-  `id` int(255) NOT NULL,
-  `token` varchar(200),
-  `username` varchar(65) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `birthdate` date DEFAULT '0000-00-00',
-  `gender` int(255) DEFAULT 0,
-  `phoneNumber` varchar(255) DEFAULT NULL,
-  `dateCreated` date NOT NULL DEFAULT current_timestamp(),
-  `fullname` varchar(255) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `location` varchar(255) DEFAULT NULL,
-  `profilePicture` longtext DEFAULT '',
-  `numPhotos` int(11) DEFAULT 0,
-  `numCodes` int(11) DEFAULT 0,
-  `numForums` int(11) DEFAULT 0,
-  `role` varchar(50) DEFAULT 'USER',
-  `blocked` TINYINT(1) DEFAULT 0,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`),
-  UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Índices para tablas volcadas
