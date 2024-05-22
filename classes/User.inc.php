@@ -22,7 +22,9 @@ class User extends Database
 		'fullname',
 		'description',
 		'location',
-		'profilePicture'
+		'profilePicture',
+		'role',
+		'blocked'
 	);
 	
 	//indicamos los parámetros válidos para las peticiones post y put mediante un array
@@ -39,7 +41,8 @@ class User extends Database
 		'description',
 		'location',
 		'profilePicture',
-		'role'
+		'role',
+		'blocked'
 	);
 
 	/**
