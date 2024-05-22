@@ -64,7 +64,7 @@ CREATE TABLE `users` (
 --
 
 CREATE TABLE `forums` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idUser` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `question` varchar(255) NOT NULL,
@@ -102,7 +102,7 @@ DELIMITER ;
 --
 
 CREATE TABLE `likes` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idUser` int(11) NOT NULL,
   `idPhoto` int(11) NOT NULL,
   PRIMARY KEY (`id`),
@@ -117,7 +117,7 @@ CREATE TABLE `likes` (
 --
 
 CREATE TABLE `photos` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idUser` int(11) NOT NULL,
   `photo` longtext NOT NULL,
   `description` varchar(255) NOT NULL,
@@ -155,7 +155,7 @@ DELIMITER ;
 --
 
 CREATE TABLE `answers` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idForum` int(11) NOT NULL,
   `idUser` int(11) NOT NULL,
   `answer` longtext NOT NULL,
@@ -194,7 +194,7 @@ DELIMITER ;
 --
 
 CREATE TABLE `scripts` (
-  `id` int(255) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idUser` varchar(255) NOT NULL,
   `code` longtext NOT NULL,
   `title` varchar(255) NOT NULL,
@@ -224,44 +224,6 @@ CREATE TRIGGER `update_numCodigo_after_insert` AFTER INSERT ON `scripts` FOR EAC
 END
 $$
 DELIMITER ;
-
---
--- Índices para tablas volcadas
---
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `forums`
---
-ALTER TABLE `forums`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
---
--- AUTO_INCREMENT de la tabla `likes`
---
-ALTER TABLE `likes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
---
--- AUTO_INCREMENT de la tabla `photos`
---
-ALTER TABLE `photos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
---
--- AUTO_INCREMENT de la tabla `answers`
---
-ALTER TABLE `answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
---
--- AUTO_INCREMENT de la tabla `scripts`
---
-ALTER TABLE `scripts`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 COMMIT;
 
