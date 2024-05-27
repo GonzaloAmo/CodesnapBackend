@@ -223,6 +223,10 @@ END
 $$
 DELIMITER ;
 
+INSERT INTO users (id, token, username, email, password, birthdate, gender, phoneNumber, dateCreated, fullname, description, location, profilePicture, numPhotos, numCodes, numForums, role, blocked)
+VALUES (1, NULL, 'admin', 'admin@gmail.com', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', '0000-00-00', 0, NULL, CURRENT_DATE, NULL, NULL, NULL, '', 0, 0, 0, 'ADMIN', 0);
+
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
