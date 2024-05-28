@@ -222,6 +222,31 @@ CREATE TRIGGER `actualizar_answer_number_delete` AFTER DELETE ON `answers` FOR E
 END
 $$
 DELIMITER ;
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `answers`
+--
+
+CREATE TABLE `forumsApp` (
+    `id` int(11) NOT NULL AUTO_INCREMENT ,
+    `name` VARCHAR(50) NOT NULL,
+    `imagen` VARCHAR(100) NOT NULL,
+    `link` VARCHAR(100) NOT NULL,
+   PRIMARY KEY (`id`)
+);
+
+INSERT INTO forumsApp (name, imagen, link) VALUES
+('FORO PHP', 'programacionIcons/phpIcon.png', '/foros/php'),
+('FORO JAVA', 'programacionIcons/javaIcon.png', '/foros/java'),
+('FORO JAVASCRIPT', 'programacionIcons/jsIcon.png', '/foros/javascript'),
+('FORO C', 'programacionIcons/cIcon.png', '/foros/c'),
+('FORO HTML', 'programacionIcons/htmlIcon.png', '/foros/html'),
+('FORO PHYTON', 'programacionIcons/phytonIcon.png', '/foros/phyton'),
+('FORO CSS', 'programacionIcons/cssIcon.png', '/foros/css'),
+('FORO SQL', 'programacionIcons/sqlIcon.png', '/foros/sql'),
+('FORO RUST', 'programacionIcons/rustIcon.png', '/foros/rust');
+
 
 INSERT INTO users (id, token, username, email, password, birthdate, gender, phoneNumber, dateCreated, fullname, description, location, profilePicture, numPhotos, numCodes, numForums, role, blocked)
 VALUES (1, NULL, 'admin', 'admin@gmail.com', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', '0000-00-00', 0, NULL, CURRENT_DATE, NULL, NULL, NULL, '', 0, 0, 0, 'ADMIN', 0);
