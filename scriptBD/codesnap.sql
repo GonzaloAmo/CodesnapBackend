@@ -236,16 +236,16 @@ CREATE TABLE `forumsApp` (
    PRIMARY KEY (`id`)
 );
 
-INSERT INTO forumsApp (name, imagen, link) VALUES
-('FORO PHP', 'programacionIcons/phpIcon.png', '/foros/php'),
-('FORO JAVA', 'programacionIcons/javaIcon.png', '/foros/java'),
-('FORO JAVASCRIPT', 'programacionIcons/jsIcon.png', '/foros/javascript'),
-('FORO C', 'programacionIcons/cIcon.png', '/foros/c'),
-('FORO HTML', 'programacionIcons/htmlIcon.png', '/foros/html'),
-('FORO PHYTON', 'programacionIcons/phytonIcon.png', '/foros/phyton'),
-('FORO CSS', 'programacionIcons/cssIcon.png', '/foros/css'),
-('FORO SQL', 'programacionIcons/sqlIcon.png', '/foros/sql'),
-('FORO RUST', 'programacionIcons/rustIcon.png', '/foros/rust');
+INSERT INTO forumsApp (id,name, imagen, link) VALUES
+(1,'FORO PHP', 'programacionIcons/phpIcon.png', '/foros/php'),
+(2,'FORO JAVA', 'programacionIcons/javaIcon.png', '/foros/java'),
+(3,'FORO JAVASCRIPT', 'programacionIcons/jsIcon.png', '/foros/javascript'),
+(4,'FORO C', 'programacionIcons/cIcon.png', '/foros/c'),
+(5,'FORO HTML', 'programacionIcons/htmlIcon.png', '/foros/html'),
+(6,'FORO PHYTON', 'programacionIcons/phytonIcon.png', '/foros/phyton'),
+(7,'FORO CSS', 'programacionIcons/cssIcon.png', '/foros/css'),
+(8,'FORO SQL', 'programacionIcons/sqlIcon.png', '/foros/sql'),
+(9,'FORO RUST', 'programacionIcons/rustIcon.png', '/foros/rust');
 
 
 INSERT INTO users (id, token, username, email, password, birthdate, gender, phoneNumber, dateCreated, fullname, description, location, profilePicture, numPhotos, numCodes, numForums, role, blocked)

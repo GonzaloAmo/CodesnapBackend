@@ -22,26 +22,6 @@ class Like extends Database
 	 * @return
 	 */
 	private function validate($data){
-		// if(!isset($data['idUser']) || empty($data['idUser'])){
-		// 	//... genera la respuesta de error
-		// 	$response = array(
-		// 		'result' => 'error',
-		// 		'details' => 'El campo idUser es obligatorio'
-		// 	);
-
-		// 	Response::result(400, $response);
-		// 	exit;
-		// }
-		// if(!isset($data['idPhoto']) || empty($data['idPhoto'])){
-		// 	//... genera la respuesta de error
-		// 	$response = array(
-		// 		'result' => 'error',
-		// 		'details' => 'El campo idPhoto es obligatorio'
-		// 	);
-
-		// 	Response::result(400, $response);
-		// 	exit;
-		// }
 		return true;
 	}
 
@@ -89,8 +69,6 @@ class Like extends Database
 			return parent::insertDB($this->table, $params);
 		}
 	}
-//probar con: {"id":"2","username":"usuario2","email":"usuario2@example.com","password":"1234","fechanacimiento":"2000-01-01","sexo":"1","telefono":"628742007","fecha_ingreso":"2024-04-24","nombrecompleto":"Usuario Dos","descripcion":"Descripci del usuario dos","ubicacion":"Ciudad Dos"} 	/**
-
 	/**
 	 * @param int $id
 	 * @param array $params

@@ -97,7 +97,6 @@ class Forum extends Database
 	}
 
 	/**
-     * probar con: {"idUser":"2","title":"Titulo del foro","question":"Alguien sabe como realizar...? "}
 	 * @param array $params
 	 * @return
 	 */
